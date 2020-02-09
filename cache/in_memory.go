@@ -1,6 +1,8 @@
-package main
+package cache
 
-import "sync"
+import (
+	"sync"
+)
 
 type inMemoryCache struct {
 	cache  map[string][]byte

@@ -1,6 +1,11 @@
 package main
 
+import (
+	"github.com/gonearewe/MCache/cache"
+	"github.com/gonearewe/MCache/http"
+)
+
 func main() {
-	cache := NewCache()
-	NewServer(cache).Listen()
+	c := cache.NewCache()
+	http.NewServer(c).Listen()
 }
