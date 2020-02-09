@@ -6,6 +6,8 @@ import (
 	"github.com/gonearewe/MCache/cache"
 )
 
+const ServerPort = ":8999"
+
 type Server struct {
 	cache.Cache
 }
@@ -17,5 +19,5 @@ func NewServer(cache cache.Cache) *Server {
 func (s *Server) Listen() {
 	http.Handle("/cache/", s.cacheHandler())
 	http.Handle("/status", s.statusHandler())
-	http.ListenAndServe(":8999", nil)
+	http.ListenAndServe(ServerPort, nil)
 }
