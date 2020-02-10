@@ -72,10 +72,11 @@ func (s *Server) delete(conn net.Conn, r *bufio.Reader) error {
 // sendResponse writes response to conn, reporting error when err!=nil or reporting value.
 func (s *Server) sendResponse(conn net.Conn, err error, value []byte) error {
 	if err != nil {
-		_, e := conn.Write(append(errCode(), []byte(err.Error())...))
+		_, e := conn.Write(append([]byte{ResponseStatusCode(false)}, []byte(err.Error())...))
 		return e
 	}
 
-	_, e := conn.Write(append(byteArrayLength(value), value...))
+	array := append(ByteArrayLength(value), value...)
+	_, e := conn.Write(append([]byte{ResponseStatusCode(true)}, array...))
 	return e
 }
