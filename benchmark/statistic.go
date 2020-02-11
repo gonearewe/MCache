@@ -24,6 +24,28 @@ type result struct {
 	statBuckets []statistic
 }
 
+func (r *result) plus(src *result) {
+	r.countGet += src.countGet
+	r.countSet += src.countSet
+	r.countMiss += src.countMiss
+
+	for i, stat := range src.statBuckets {
+		r.updateStatBuckets(i, stat)
+	}
+	// gap:=len(src.statBuckets)- len(r.statBuckets)
+	//	// if gap>0{
+	//	// 	src.statBuckets = append(src.statBuckets, make([]statistic,gap)...)
+	//	// }
+	//	// for i:=range r.statBuckets{
+	//	// 	if i>= len(src.statBuckets){
+	//	// 		break
+	//	// 	}
+	//	//
+	//	// 	r.statBuckets[i].count+=src.statBuckets[i].count
+	//	// 	r.statBuckets[i].duration+=src.statBuckets[i].duration
+	//	// }
+}
+
 // addDuration increases both count of specific type and count in statBuckets by one,
 // and apart from one count, it also updates statBuckets with duration.
 func (r *result) addDuration(d time.Duration, type_ client.RequestType) {
