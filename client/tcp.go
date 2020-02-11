@@ -38,7 +38,7 @@ func (c *tcpClient) Run(req *Request) {
 	}
 }
 
-func (c *tcpClient) PipelineRun(reqs []*Request) {
+func (c *tcpClient) PipelinedRun(reqs []*Request) {
 	for _, req := range reqs { // send requests all at once
 		switch req.Type {
 		case RequestSet:

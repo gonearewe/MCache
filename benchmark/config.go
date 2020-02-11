@@ -15,12 +15,12 @@ type config struct {
 var Config = &config{}
 
 func init() {
-	flag.StringVar(&Config.Type, "type", "redis", "cache server type")
+	flag.StringVar(&Config.Type, "type", "tcp", "cache server type")
 	flag.StringVar(&Config.ServerName, "h", "localhost", "cache server address")
-	flag.IntVar(&Config.Total, "n", 1000, "total number of requests")
-	flag.IntVar(&Config.ValueSize, "d", 1000, "data size of SET/GET value in bytes")
+	flag.IntVar(&Config.Total, "n", 100000, "total number of requests")
+	flag.IntVar(&Config.ValueSize, "d", 10, "data size of SET/GET value in bytes")
 	flag.IntVar(&Config.Threads, "c", 1, "number of parallel connections")
-	flag.StringVar(&Config.Operation, "t", "set", "test set, could be get/set/mixed")
+	flag.StringVar(&Config.Operation, "t", "mixed", "test set, could be get/set/mixed")
 	flag.IntVar(&Config.PipeLen, "P", 1, "pipeline length")
 
 	flag.Parse()

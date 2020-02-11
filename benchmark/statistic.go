@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/gonearewe/MCache/benchmark/client"
+	"github.com/gonearewe/MCache/client"
 )
 
 // statistic is the element of one bucket, it contains sum of counts and durations

@@ -6,16 +6,18 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gonearewe/MCache/benchmark/client"
+	"github.com/gonearewe/MCache/client"
 )
 
 func startBenchmarkRoutine(routineID, count int, ch chan<- *result) {
 	var client_ = client.New(Config.Type, Config.ServerName)
-	var requests = make([]*client.Request, count)
+	var requests = make([]*client.Request, 0, count)
 	var res = &result{countMiss: 0, countGet: 0, countSet: 0, statBuckets: make([]statistic, 0)}
 
 	// prepare requests
 	for i := 0; i < count; i++ {
+		requests = append(requests, &client.Request{Type: "", Key: "", Val: nil, Error: nil})
+
 		// determine benchmark operation type
 		var type_ = Config.Operation
 		if type_ == "mixed" {
@@ -32,7 +34,7 @@ func startBenchmarkRoutine(routineID, count int, ch chan<- *result) {
 		requests[i].Key = strconv.Itoa(uniqueID)
 		k := []byte(requests[i].Key)
 		// value is a slice of byte starting with its key and supplied to demanded size with meaningless letters
-		requests[i].Val = append(k, bytes.Repeat([]byte{'A'}, Config.ValueSize-len(k))...)
+		requests[i].Val = append(k, bytes.Repeat([]byte{'8'}, Config.ValueSize-len(k))...)
 	}
 
 	// handle pipelineRun
@@ -72,7 +74,7 @@ func run(c client.Client, req *client.Request, res *result) {
 		if len(req.Val) == 0 {
 			type_ = "miss"
 		} else if !byteSliceEqual(req.Val, expected) {
-			panic("fail to Get expected cache, please make sure it passed tests")
+			panic("fail to Get expected cache: expecting " + string(expected) + " : got: " + string(req.Val))
 		}
 	}
 
@@ -89,7 +91,7 @@ func pipelineRun(c client.Client, reqs []*client.Request, res *result) {
 
 	// benchmark
 	start := time.Now()
-	c.PipelineRun(reqs)
+	c.PipelinedRun(reqs)
 	duration := time.Now().Sub(start)
 
 	for i, req := range reqs {
