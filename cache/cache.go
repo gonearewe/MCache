@@ -1,4 +1,4 @@
-package main
+package cache
 
 type Cache interface {
 	Set(key string, val []byte) error

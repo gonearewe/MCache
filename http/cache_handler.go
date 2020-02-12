@@ -1,41 +1,18 @@
-package main
+package http
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 )
 
-type Server struct {
-	Cache
-}
-
 type cacheHandler struct {
 	*Server
 }
 
-type statusHandler struct {
-	*Server
-}
-
-func NewServer(cache Cache) *Server {
-	return &Server{cache}
-}
-
-func (s *Server) Listen() {
-	http.Handle("/cache/", s.cacheHandler())
-	http.Handle("/status", s.statusHandler())
-	http.ListenAndServe(":2000", nil)
-}
-
 func (s *Server) cacheHandler() http.Handler {
 	return &cacheHandler{s}
-}
-
-func (s *Server) statusHandler() http.Handler {
-	return &statusHandler{s}
 }
 
 func (h *cacheHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -87,22 +64,6 @@ func (h *cacheHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		return
-	}
-}
-
-func (h *statusHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-		return
-	}
-
-	if data, err := json.Marshal(h.GetStatus()); err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	} else {
-		_, _ = w.Write(data)
 		return
 	}
 }
