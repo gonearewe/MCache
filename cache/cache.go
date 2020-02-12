@@ -13,8 +13,12 @@ type Status struct {
 	ValSize int64 // size of values
 }
 
-func NewCache() Cache {
-	return newInMemoryCache()
+func NewCache(type_ string) Cache {
+	if type_ == "inmemory" {
+		return newInMemoryCache()
+	} else {
+		return newRocksdbCache()
+	}
 }
 
 func (s *Status) add(key string, val []byte) {
