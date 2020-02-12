@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gonearewe/MCache/cache"
-	"github.com/gonearewe/MCache/tcp"
+	"github.com/gonearewe/MCache/server/tcp"
 )
 
 func main() {

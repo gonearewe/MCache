@@ -21,7 +21,7 @@ func init() {
 	flag.IntVar(&Config.ValueSize, "d", 10, "data size of SET/GET value in bytes")
 	flag.IntVar(&Config.Threads, "c", 1, "number of parallel connections")
 	flag.StringVar(&Config.Operation, "t", "mixed", "test set, could be get/set/mixed")
-	flag.IntVar(&Config.PipeLen, "P", 1, "pipeline length")
+	flag.IntVar(&Config.PipeLen, "P", 100, "pipeline length")
 
 	flag.Parse()
 
