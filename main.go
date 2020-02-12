@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	c := cache.NewCache("inmemory")
+	c := cache.NewCache("rocksdb")
 	tcp.NewServer(c).Listen()
 }
