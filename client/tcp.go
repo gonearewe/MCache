@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net"
 
-	"github.com/gonearewe/MCache/tcp"
+	"github.com/gonearewe/MCache/server/tcp"
 )
 
 type tcpClient struct {
