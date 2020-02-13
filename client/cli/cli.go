@@ -9,6 +9,7 @@ import (
 	"github.com/gonearewe/MCache/client"
 )
 
+// A simple CLI TCP Client, you can use it to debug the server.
 func main() {
 	var client_ = client.New("tcp", "localhost")
 	var sc = bufio.NewScanner(os.Stdin)

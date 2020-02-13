@@ -38,6 +38,9 @@ func (c *tcpClient) Run(req *Request) {
 	}
 }
 
+// PipelinedRun sends several requests all at one time and receives response later at one time,
+// compared to requesting one after one, it reduces time waiting for response. So this technique
+// boosts performance on the client side.
 func (c *tcpClient) PipelinedRun(reqs []*Request) {
 	for _, req := range reqs { // send requests all at once
 		switch req.Type {

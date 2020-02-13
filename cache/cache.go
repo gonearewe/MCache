@@ -7,17 +7,18 @@ type Cache interface {
 	GetStatus() Status
 }
 
+// Status records some statistic about the cache.
 type Status struct {
 	Count   int64 // number of caches
 	KeySize int64 // size of keys
 	ValSize int64 // size of values
 }
 
-func NewCache(type_ string) Cache {
+func NewCache(type_ string, ttl int) Cache {
 	if type_ == "inmemory" {
-		return newInMemoryCache()
+		return newInMemoryCache(ttl)
 	} else {
-		return newRocksdbCache()
+		return newRocksdbCache(ttl)
 	}
 }
 

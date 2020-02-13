@@ -6,6 +6,10 @@ import (
 	"github.com/gonearewe/MCache/cache"
 )
 
+// Cache servers running on self-made protocol on TCP perform better,
+// so HTTP side should work for administrator, providing managing measures,
+// which I didn't implement here. This package is currently unused.
+
 const ServerPort = ":8999"
 
 type Server struct {
