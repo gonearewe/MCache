@@ -13,11 +13,11 @@ type Status struct {
 	ValSize int64 // size of values
 }
 
-func NewCache(type_ string) Cache {
+func NewCache(type_ string, ttl int) Cache {
 	if type_ == "inmemory" {
-		return newInMemoryCache()
+		return newInMemoryCache(ttl)
 	} else {
-		return newRocksdbCache()
+		return newRocksdbCache(ttl)
 	}
 }
 

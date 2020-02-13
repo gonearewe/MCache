@@ -1,11 +1,15 @@
 package main
 
 import (
+	"flag"
+
 	"github.com/gonearewe/MCache/cache"
 	"github.com/gonearewe/MCache/server/tcp"
 )
 
 func main() {
-	c := cache.NewCache("rocksdb")
+	type_ := flag.String("t", "inmemory", "cache type")
+	ttl := flag.Int("ttl", 5, "cache life time")
+	c := cache.NewCache(*type_, *ttl)
 	tcp.NewServer(c).Listen()
 }

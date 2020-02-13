@@ -26,12 +26,15 @@ type pair struct {
 	v []byte
 }
 
-func newRocksdbCache() *rocksdbCache {
+func newRocksdbCache(ttl int) *rocksdbCache {
+	const path = "/home/heathcliff/Projects/database" // database location
+
 	options := C.rocksdb_options_create()
 	C.rocksdb_options_increase_parallelism(options, C.int(runtime.NumCPU()))
 	C.rocksdb_options_set_create_if_missing(options, 1)
+
 	var e *C.char
-	db := C.rocksdb_open(options, C.CString("/home/heathcliff/Projects/database"), &e) // database location
+	db := C.rocksdb_open_with_ttl(options, C.CString(path), C.int(ttl), &e)
 	if e != nil {
 		panic(C.GoString(e))
 	}
@@ -39,6 +42,7 @@ func newRocksdbCache() *rocksdbCache {
 	c := make(chan *pair, 5000)
 	wo := C.rocksdb_writeoptions_create()
 	go write_func(db, c, wo)
+
 	return &rocksdbCache{db, C.rocksdb_readoptions_create(), wo, e, c}
 }
 
