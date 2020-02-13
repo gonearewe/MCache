@@ -42,7 +42,7 @@ func startBenchmarkRoutine(routineID, count int, ch chan<- *result) {
 		var reqs []*client.Request
 		for i, req := range requests {
 			if len(reqs) == Config.PipeLen || i == len(requests)-1 {
-				pipelineRun(client_, reqs, res)
+				pipelineRun(client_, reqs, res) // send several requests at one time
 			} else {
 				reqs = append(reqs, req)
 			}
@@ -74,6 +74,7 @@ func run(c client.Client, req *client.Request, res *result) {
 		if len(req.Val) == 0 {
 			type_ = "miss"
 		} else if !byteSliceEqual(req.Val, expected) {
+			// not expected value, make sure it passes tests first
 			panic("fail to Get expected cache: expecting " + string(expected) + " : got: " + string(req.Val))
 		}
 	}

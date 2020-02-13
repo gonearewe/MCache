@@ -7,6 +7,7 @@ type Cache interface {
 	GetStatus() Status
 }
 
+// Status records some statistic about the cache.
 type Status struct {
 	Count   int64 // number of caches
 	KeySize int64 // size of keys

@@ -4,6 +4,9 @@ import (
 	"github.com/go-redis/redis"
 )
 
+// for redis client, we take advantage of an existed repo,
+// all we need is to wrap it.
+
 type redisClient struct {
 	*redis.Client
 }
